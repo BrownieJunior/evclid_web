@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = emailInput.value;
     const text = textInput.value + " ";
 
-    if (!/^[A-Za-z\s]+$/.test(name)) {
+    if (!/^[A-Za-zА-Яа-я\s]+$/.test(name)) {
       resultDiv1.innerText =
         "Пожалуйста введите верное имя (допустимы только буквы или пробел)";
       resultDiv1.style.color = "#f0f01f";

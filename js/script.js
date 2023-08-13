@@ -10,6 +10,12 @@ const swiper = new Swiper(".swiper", {
     clickable: "true",
   },
 
+  autoplay: {
+    delay: 5000,
+  },
+  effect: "slide",
+  speed: 1000,
+
   // Navigation arrows
   navigation: {
     nextEl: ".swiper-button-next",
@@ -22,383 +28,26 @@ const swiper = new Swiper(".swiper", {
   },
 });
 
-// accordion
-document.addEventListener("DOMContentLoaded", function () {
-  let acc = new Accordion(".accordion__list", {
-    duration: 700,
-    elementClass: "accordion__item",
-    triggerClass: "accordion__top",
-    panelClass: "accordion__bottom",
-    showMultiple: false,
-  });
-});
-("use strict");
-!(function (e) {
-  var t = 0,
-    n = function e(n, s) {
-      var i = this,
-        o = this,
-        a = !1;
-      if (Array.isArray(n))
-        return (
-          !!n.length &&
-          n.map(function (t) {
-            return new e(t, s);
-          })
-        );
-      var r = {
-        init: function () {
-          this.options = Object.assign(
-            {
-              duration: 600,
-              ariaEnabled: !0,
-              collapse: !0,
-              showMultiple: !1,
-              onlyChildNodes: !0,
-              openOnInit: [],
-              elementClass: "ac",
-              triggerClass: "ac-trigger",
-              panelClass: "ac-panel",
-              activeClass: "is-active",
-              beforeOpen: function () {},
-              onOpen: function () {},
-              beforeClose: function () {},
-              onClose: function () {},
-            },
-            s
-          );
-          var e = "string" == typeof n;
-          (this.container = e ? document.querySelector(n) : n),
-            this.createDefinitions(),
-            o.attachEvents();
-        },
-        createDefinitions: function () {
-          var e = this,
-            n = this.options,
-            s = n.elementClass,
-            i = n.openOnInit,
-            o = n.onlyChildNodes
-              ? this.container.childNodes
-              : this.container.querySelectorAll(".".concat(s));
-          (this.elements = Array.from(o).filter(function (e) {
-            return e.classList && e.classList.contains(s);
-          })),
-            (this.firstElement = this.elements[0]),
-            (this.lastElement = this.elements[this.elements.length - 1]),
-            this.elements
-              .filter(function (e) {
-                return !e.classList.contains("js-enabled");
-              })
-              .forEach(function (n) {
-                n.classList.add("js-enabled"),
-                  e.generateIDs(n),
-                  e.setARIA(n),
-                  e.setTransition(n);
-                var s = e.elements.indexOf(n);
-                t++,
-                  i.includes(s) ? e.showElement(n, !1) : e.closeElement(n, !1);
-              });
-        },
-        setTransition: function (e) {
-          var t =
-              arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
-            n = this.options,
-            s = n.duration,
-            i = n.panelClass,
-            o = e.querySelector(".".concat(i)),
-            a = c("transitionDuration");
-          o.style[a] = t ? null : "".concat(s, "ms");
-        },
-        generateIDs: function (e) {
-          var n = this.options,
-            s = n.triggerClass,
-            i = n.panelClass,
-            o = e.querySelector(".".concat(s)),
-            a = e.querySelector(".".concat(i));
-          e.setAttribute("id", "ac-".concat(t)),
-            o.setAttribute("id", "ac-trigger-".concat(t)),
-            a.setAttribute("id", "ac-panel-".concat(t));
-        },
-        removeIDs: function (e) {
-          var t = this.options,
-            n = t.triggerClass,
-            s = t.panelClass,
-            i = e.querySelector(".".concat(n)),
-            o = e.querySelector(".".concat(s));
-          e.removeAttribute("id"),
-            i.removeAttribute("id"),
-            o.removeAttribute("id");
-        },
-        setARIA: function (e) {
-          var n = this.options,
-            s = n.ariaEnabled,
-            i = n.triggerClass,
-            o = n.panelClass;
-          if (s) {
-            var a = e.querySelector(".".concat(i)),
-              r = e.querySelector(".".concat(o));
-            a.setAttribute("role", "button"),
-              a.setAttribute("aria-controls", "ac-panel-".concat(t)),
-              a.setAttribute("aria-disabled", !1),
-              a.setAttribute("aria-expanded", !1),
-              r.setAttribute("role", "region"),
-              r.setAttribute("aria-labelledby", "ac-trigger-".concat(t));
-          }
-        },
-        updateARIA: function (e, t) {
-          var n = t.ariaExpanded,
-            s = t.ariaDisabled,
-            i = this.options,
-            o = i.ariaEnabled,
-            a = i.triggerClass;
-          if (o) {
-            var r = e.querySelector(".".concat(a));
-            r.setAttribute("aria-expanded", n),
-              r.setAttribute("aria-disabled", s);
-          }
-        },
-        removeARIA: function (e) {
-          var t = this.options,
-            n = t.ariaEnabled,
-            s = t.triggerClass,
-            i = t.panelClass;
-          if (n) {
-            var o = e.querySelector(".".concat(s)),
-              a = e.querySelector(".".concat(i));
-            o.removeAttribute("role"),
-              o.removeAttribute("aria-controls"),
-              o.removeAttribute("aria-disabled"),
-              o.removeAttribute("aria-expanded"),
-              a.removeAttribute("role"),
-              a.removeAttribute("aria-labelledby");
-          }
-        },
-        focus: function (e, t) {
-          e.preventDefault();
-          var n = this.options.triggerClass;
-          t.querySelector(".".concat(n)).focus();
-        },
-        focusFirstElement: function (e) {
-          this.focus(e, this.firstElement), (this.currFocusedIdx = 0);
-        },
-        focusLastElement: function (e) {
-          this.focus(e, this.lastElement),
-            (this.currFocusedIdx = this.elements.length - 1);
-        },
-        focusNextElement: function (e) {
-          var t = this.currFocusedIdx + 1;
-          if (t > this.elements.length - 1) return this.focusFirstElement(e);
-          this.focus(e, this.elements[t]), (this.currFocusedIdx = t);
-        },
-        focusPrevElement: function (e) {
-          var t = this.currFocusedIdx - 1;
-          if (t < 0) return this.focusLastElement(e);
-          this.focus(e, this.elements[t]), (this.currFocusedIdx = t);
-        },
-        showElement: function (e) {
-          var t =
-              !(arguments.length > 1 && void 0 !== arguments[1]) ||
-              arguments[1],
-            n = this.options,
-            s = n.panelClass,
-            i = n.activeClass,
-            o = n.collapse,
-            a = n.beforeOpen,
-            r = e.querySelector(".".concat(s)),
-            c = r.scrollHeight;
-          e.classList.add(i),
-            t && a(e),
-            requestAnimationFrame(function () {
-              requestAnimationFrame(function () {
-                r.style.height = t ? "".concat(c, "px") : "auto";
-              });
-            }),
-            this.updateARIA(e, { ariaExpanded: !0, ariaDisabled: !o });
-        },
-        closeElement: function (e) {
-          var t =
-              !(arguments.length > 1 && void 0 !== arguments[1]) ||
-              arguments[1],
-            n = this.options,
-            s = n.panelClass,
-            i = n.activeClass,
-            o = n.beforeClose,
-            a = e.querySelector(".".concat(s)),
-            r = a.scrollHeight;
-          e.classList.remove(i),
-            t
-              ? (o(e),
-                requestAnimationFrame(function () {
-                  (a.style.height = "".concat(r, "px")),
-                    requestAnimationFrame(function () {
-                      a.style.height = 0;
-                    });
-                }))
-              : (a.style.height = 0),
-            this.updateARIA(e, { ariaExpanded: !1, ariaDisabled: !1 });
-        },
-        toggleElement: function (e) {
-          var t = this.options,
-            n = t.activeClass,
-            s = t.collapse,
-            i = e.classList.contains(n);
-          if (!i || s) return i ? this.closeElement(e) : this.showElement(e);
-        },
-        closeElements: function () {
-          var e = this,
-            t = this.options,
-            n = t.activeClass;
-          t.showMultiple ||
-            this.elements.forEach(function (t, s) {
-              t.classList.contains(n) &&
-                s !== e.currFocusedIdx &&
-                e.closeElement(t);
-            });
-        },
-        handleClick: function (e) {
-          var t = this,
-            n = e.currentTarget;
-          this.elements.forEach(function (s, i) {
-            s.contains(n) &&
-              "A" !== e.target.nodeName &&
-              ((t.currFocusedIdx = i),
-              t.closeElements(),
-              t.focus(e, s),
-              t.toggleElement(s));
-          });
-        },
-        handleKeydown: function (e) {
-          var t = 38,
-            n = 40,
-            s = 36,
-            i = 35;
-          switch (e.keyCode) {
-            case t:
-              return this.focusPrevElement(e);
-            case n:
-              return this.focusNextElement(e);
-            case s:
-              return this.focusFirstElement(e);
-            case i:
-              return this.focusLastElement(e);
-            default:
-              return null;
-          }
-        },
-        handleTransitionEnd: function (e) {
-          if ("height" === e.propertyName) {
-            var t = this.options,
-              n = t.onOpen,
-              s = t.onClose,
-              i = e.currentTarget,
-              o = parseInt(i.style.height),
-              a = this.elements.find(function (e) {
-                return e.contains(i);
-              });
-            o > 0 ? ((i.style.height = "auto"), n(a)) : s(a);
-          }
-        },
-      };
-      (this.attachEvents = function () {
-        if (!a) {
-          var e = r.options,
-            t = e.triggerClass,
-            n = e.panelClass;
-          (r.handleClick = r.handleClick.bind(r)),
-            (r.handleKeydown = r.handleKeydown.bind(r)),
-            (r.handleTransitionEnd = r.handleTransitionEnd.bind(r)),
-            r.elements.forEach(function (e) {
-              var s = e.querySelector(".".concat(t)),
-                i = e.querySelector(".".concat(n));
-              s.addEventListener("click", r.handleClick),
-                s.addEventListener("keydown", r.handleKeydown),
-                i.addEventListener(
-                  "webkitTransitionEnd",
-                  r.handleTransitionEnd
-                ),
-                i.addEventListener("transitionend", r.handleTransitionEnd);
-            }),
-            (a = !0);
-        }
-      }),
-        (this.detachEvents = function () {
-          if (a) {
-            var e = r.options,
-              t = e.triggerClass,
-              n = e.panelClass;
-            r.elements.forEach(function (e) {
-              var s = e.querySelector(".".concat(t)),
-                i = e.querySelector(".".concat(n));
-              s.removeEventListener("click", r.handleClick),
-                s.removeEventListener("keydown", r.handleKeydown),
-                i.removeEventListener(
-                  "webkitTransitionEnd",
-                  r.handleTransitionEnd
-                ),
-                i.removeEventListener("transitionend", r.handleTransitionEnd);
-            }),
-              (a = !1);
-          }
-        }),
-        (this.toggle = function (e) {
-          var t = r.elements[e];
-          t && r.toggleElement(t);
-        }),
-        (this.open = function (e) {
-          var t = r.elements[e];
-          t && r.showElement(t);
-        }),
-        (this.openAll = function () {
-          var e = r.options,
-            t = e.activeClass,
-            n = e.onOpen;
-          r.elements.forEach(function (e) {
-            e.classList.contains(t) || (r.showElement(e, !1), n(e));
-          });
-        }),
-        (this.close = function (e) {
-          var t = r.elements[e];
-          t && r.closeElement(t);
-        }),
-        (this.closeAll = function () {
-          var e = r.options,
-            t = e.activeClass,
-            n = e.onClose;
-          r.elements.forEach(function (e) {
-            e.classList.contains(t) && (r.closeElement(e, !1), n(e));
-          });
-        }),
-        (this.destroy = function () {
-          i.detachEvents(),
-            i.openAll(),
-            r.elements.forEach(function (e) {
-              r.removeIDs(e), r.removeARIA(e), r.setTransition(e, !0);
-            }),
-            (a = !0);
-        }),
-        (this.update = function () {
-          r.createDefinitions(), i.detachEvents(), i.attachEvents();
-        });
-      var c = function (e) {
-          return "string" == typeof document.documentElement.style[e]
-            ? e
-            : ((e = l(e)), (e = "webkit".concat(e)));
-        },
-        l = function (e) {
-          return e.charAt(0).toUpperCase() + e.slice(1);
-        };
-      r.init();
-    };
-  "undefined" != typeof module && void 0 !== module.exports
-    ? (module.exports = n)
-    : (e.Accordion = n);
-})(window);
-
 // tabs
+document.querySelector(`[data-path="one"]`).style.color = "#ff9900";
+// Функция для установки цвета в зависимости от активного таба
+function setColors(activePath) {
+  document.querySelectorAll("[data-path]").forEach(function (block) {
+    if (block.dataset.path === activePath) {
+      block.style.color = "#ff9900";
+    } else {
+      block.style.color = "";
+    }
+  });
+}
 
 document.querySelectorAll(".work__step-link").forEach(function (tabsBtn) {
   tabsBtn.addEventListener("click", function (e) {
     const path = e.currentTarget.dataset.path;
+
+    // Устанавливаем цвета в зависимости от активного таба
+    setColors(path);
+
     document.querySelectorAll(".work__step-link").forEach(function (btn) {
       btn.classList.remove("work__steplink--active");
     });
@@ -435,4 +84,149 @@ hamburger.addEventListener("click", toggleMenu);
 
 menuItems.forEach(function (menuItem) {
   menuItem.addEventListener("click", toggleMenu);
+});
+
+//accordion
+
+document.addEventListener("DOMContentLoaded", function () {
+  const accordionItems = document.querySelectorAll(".accordion__item");
+
+  accordionItems.forEach((item) => {
+    const btn = item.querySelector(".accordion__top");
+    const panel = item.querySelector(".accordion__bottom");
+    const svg = item.querySelector(".accordion__btn");
+
+    btn.addEventListener("click", () => {
+      panel.classList.toggle("active");
+      item.classList.toggle("active");
+
+      if (panel.classList.contains("active")) {
+        panel.classList.remove("closing");
+        svg.classList.add("rotate");
+      } else {
+        panel.classList.add("closing");
+        svg.classList.remove("rotate");
+      }
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // ФОРМА 1
+  const form1 = document.getElementById("form_id");
+  const resultDiv1 = document.getElementById("result__div-id");
+
+  form1.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const nameInput = document.querySelector("input[name='name1']");
+    const emailInput = document.querySelector("input[name='email1']");
+    const textInput = document.querySelector("textarea[name='text1']");
+    const agreementCheckbox = document.querySelector(".footer__agreement");
+
+    const name = nameInput.value;
+    const email = emailInput.value;
+    const text = textInput.value + " ";
+
+    if (!/^[A-Za-z\s]+$/.test(name)) {
+      resultDiv1.innerText =
+        "Пожалуйста введите верное имя (допустимы только буквы или пробел)";
+      resultDiv1.style.color = "#f0f01f";
+
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      resultDiv1.innerText =
+        "Пожалуйста введите верный адрес электронной почты.";
+      resultDiv1.style.color = "#f0f01f";
+      return;
+    }
+
+    if (!agreementCheckbox.checked) {
+      resultDiv1.innerText = "Согласитесь с правилами обработки данных.";
+      resultDiv1.style.color = "#fb2525";
+
+      return;
+    }
+
+    fetch("form.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(
+        email
+      )}&text=${encodeURIComponent(text)}`,
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        resultDiv1.innerText = data;
+        resultDiv1.style.color = "#1bb82d";
+        form1.reset();
+      })
+      .catch((error) => {
+        resultDiv1.innerText = "Произошла ошибка при отправке данных.";
+        resultDiv1.style.color = "#fb2525";
+        console.error(error);
+      });
+  });
+
+  // ФОРМА 2
+  const form2 = document.getElementById("form_id-2");
+  const resultDiv2 = document.getElementById("result__div-id2");
+
+  form2.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const nameInput = document.querySelector("input[name='name2']");
+    const emailInput = document.querySelector("input[name='email2']");
+    const textInput = document.querySelector("textarea[name='text2']");
+    const agreementCheckbox = document.querySelector(".footer__agreement2");
+
+    const name = nameInput.value;
+    const email = emailInput.value;
+    const text = textInput.value + " ";
+
+    if (!/^[A-Za-z\s]+$/.test(name)) {
+      resultDiv2.innerText =
+        "Пожалуйста введите верное имя (допустимы только буквы или пробел)";
+      resultDiv2.style.color = "#f0f01f";
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      resultDiv2.innerText =
+        "Пожалуйста введите верный адрес электронной почты.";
+      resultDiv2.style.color = "#f0f01f";
+      return;
+    }
+
+    if (!agreementCheckbox.checked) {
+      resultDiv2.innerText = "Согласитесь с правилами обработки данных.";
+      resultDiv2.style.color = "#fb2525";
+      return;
+    }
+
+    fetch("form.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `name=${encodeURIComponent(name)}&email=${encodeURIComponent(
+        email
+      )}&text=${encodeURIComponent(text)}`,
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        resultDiv2.innerText = data;
+        resultDiv2.style.color = "#1bb82d";
+        form2.reset();
+      })
+      .catch((error) => {
+        resultDiv2.innerText = "Произошла ошибка при отправке данных.";
+        resultDiv2.style.color = "#fb2525";
+        console.error(error);
+      });
+  });
 });

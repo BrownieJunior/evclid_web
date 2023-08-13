@@ -23,6 +23,9 @@
   .hero__content-text {
     min-width: 63%;
   }
+  .popup__content {
+    width: 50%;
+  }
 }
 @media (max-width: 1342px) {
   .hero__content-title {
@@ -156,6 +159,9 @@
   .accordion__title {
     max-width: 756px;
   }
+  .popup__content {
+    width: 60%;
+  }
 }
 @media (max-width: 1024px) {
   .menu__burger {
@@ -180,6 +186,9 @@
   }
   .footer__center {
     margin-bottom: 50px;
+  }
+  .popup__content {
+    width: 65%;
   }
 }
 @media (max-width: 940px) {
@@ -219,6 +228,9 @@
   .work__step-list {
     display: flex;
     justify-content: space-between;
+  }
+  .popup__content {
+    width: 70%;
   }
 }
 @media (max-width: 768px) {
@@ -275,6 +287,10 @@
   }
   .questions {
     margin-bottom: 111px;
+  }
+  .popup__content {
+    width: 75%;
+    padding: 25px 25px 10px 25px;
   }
 }
 @media (max-width: 652px) {
@@ -446,6 +462,10 @@
     width: 85px;
     height: 70px;
   }
+  .popup__content {
+    width: 90%;
+    padding: 20px 15px 0px 15px;
+  }
 }
 @media (max-width: 460px) {
   .container {
@@ -580,5 +600,16 @@
   }
   .footer__center {
     margin-bottom: 16px;
+  }
+  .popup__content {
+    width: 97%;
+    padding: 20px 15px 0px 15px;
+  }
+  .popup__close {
+    top: 10px;
+    right: 10px;
+  }
+  .feedback__title {
+    font-size: 24px;
   }
 }

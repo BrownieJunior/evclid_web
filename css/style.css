@@ -267,6 +267,9 @@ body {
 .about {
   margin-bottom: 100px;
 }
+#about {
+  scroll-margin-top: 130px;
+}
 
 .maintitle {
   font-weight: 400;
@@ -395,6 +398,9 @@ body {
 .work {
   margin-bottom: 111px;
 }
+#work {
+  scroll-margin-top: 130px;
+}
 .work__maintitle {
   margin-bottom: 50px;
 }
@@ -505,6 +511,9 @@ body {
   border-radius: 32px;
 }
 /*----------------Questions----------------*/
+#faq {
+  scroll-margin-top: 130px;
+}
 .accordion__list {
   width: 100%;
 }
@@ -531,7 +540,7 @@ body {
   padding-top: 30px;
   padding-bottom: 30px;
   margin-top: -1px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s linear;
 }
 .accordion__btn {
   align-self: center;
@@ -540,14 +549,16 @@ body {
   width: 100%;
   height: 50px;
   border-radius: 50%;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s linear;
 }
 .header__search-svg rect {
   fill: #333;
 }
-.accordion__item:active .accordion__btn {
+
+.rotate {
   transform: rotate(45deg);
 }
+
 .accordion__top:hover,
 .accordion__top:focus-within {
   position: relative;
@@ -557,7 +568,7 @@ body {
   border-color: #ff9900;
 }
 .accordion__btn svg ellipse {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s linear;
 }
 .accordion__top:hover .accordion__btn svg path {
   fill: #fff;
@@ -573,21 +584,25 @@ body {
 .accordion__top:focus-within {
   outline: 0;
 }
-.accordion__item.is-active .accordion__top {
+.accordion__item.active .accordion__top {
   border-color: #ff9900;
 }
-.accordion__item.is-active .accordion__btn {
-  transform: rotate(45deg);
-  color: #fff;
+.accordion__item.active .accordion__title {
+  color: #ff9900;
 }
-.accordion__item.is-active .accordion__btn ellipse {
+
+.accordion__item.active .accordion__btn ellipse {
   fill: #ff9900;
 }
-.accordion__item.is-active .accordion__top + .accordion__bottom {
+.accordion__item.active .accordion__btn path {
+  fill: #fff;
+}
+.accordion__item.active .accordion__top + .accordion__bottom {
   border-bottom: 1px solid #ff9900;
   position: relative;
   z-index: 2;
   padding: 20px 0;
+  transition: all 0.5s linear;
 }
 .accordion__item.ac {
   margin: 0;
@@ -596,6 +611,22 @@ body {
 .accordion__bottom {
   line-height: 2;
 }
+.accordion__bottom {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s linear;
+}
+
+.accordion__bottom.active {
+  max-height: 1000px;
+  transition: max-height 0.5s linear;
+}
+
+.accordion__bottom.closing {
+  max-height: 0;
+  transition: all 0.6s linear;
+}
+/* /// */
 .questions {
   margin-bottom: 100px;
 }
@@ -654,6 +685,7 @@ body {
   color: #cacaca;
   margin-bottom: 25px;
 }
+
 .application__form {
   display: flex;
   flex-direction: column;
@@ -664,6 +696,8 @@ body {
   border-radius: 16px;
   padding: 14px 0 14px 24px;
   margin-bottom: 25px;
+  font-size: 20px;
+  color: #fff;
 }
 .surname__input:hover {
   background: #666666;
@@ -683,6 +717,8 @@ body {
   border-radius: 16px;
   padding: 14px 0 14px 24px;
   margin-bottom: 25px;
+  font-size: 20px;
+  color: #fff;
 }
 .email__input:hover {
   background: #666666;
@@ -696,12 +732,21 @@ body {
   line-height: 32px;
   color: #cacaca;
 }
+
+input[type="text"] {
+  width: 100%; /* Установите желаемую ширину */
+  box-sizing: border-box; /* Учтем padding и border в общей ширине */
+  word-wrap: break-word; /* Перенос слов на новую строку */
+}
+
 .text__input {
   height: 150px;
   background: #414141;
   border-radius: 16px;
-  padding: 14px 0 104px 24px;
+  padding: 24px;
   margin-bottom: 32px;
+  font-size: 20px;
+  color: #fff;
 }
 .text__input:hover {
   background: #666666;
@@ -726,6 +771,7 @@ body {
   text-align: center;
   color: #ffffff;
   margin-right: 17px;
+  margin-bottom: 10px;
 }
 .input__bnt-link:focus-visible {
   background: #ffb84d;
@@ -736,6 +782,26 @@ body {
 .input__bnt-link:active {
   background: #e1670e;
 }
+
+.result__div-id {
+  min-height: 15px;
+  font-size: 16px;
+  line-height: 20px;
+  margin: 8px 0;
+  font-weight: 300;
+  color: #1bb82d;
+  opacity: 0.8;
+}
+.result__div-id2 {
+  min-height: 15px;
+  font-size: 16px;
+  line-height: 20px;
+  margin: 8px 0;
+  font-weight: 300;
+  color: #1bb82d;
+  opacity: 0.8;
+}
+
 .footer__checkbox {
   margin-right: 5px;
 }
@@ -759,8 +825,15 @@ body {
 
 .footer__label {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 .footer__agreement {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+.footer__agreement2 {
   position: absolute;
   opacity: 0;
   visibility: hidden;
@@ -779,7 +852,7 @@ body {
   position: absolute;
   width: 12px;
   height: 12px;
-  background-image: url(../img/Rectangle\ 44.svg);
+  background-image: url(../img/check.svg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -797,6 +870,67 @@ body {
   line-height: 32px;
   color: #cacaca;
 }
+
 .footer__agreement:checked + .fake::before {
   opacity: 1;
+}
+.footer__agreement2:checked + .fake::before {
+  opacity: 1;
+}
+
+/* ========== POPUP ========== */
+
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  z-index: 111;
+  opacity: 0;
+  visibility: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.8s ease 0s;
+}
+
+.popup.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup__body {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 15px;
+}
+.popup__content {
+  position: relative;
+  width: 40%;
+  max-width: 800px;
+  background-color: #000;
+  padding: 30px 30px 10px 30px;
+  border-radius: 10px;
+}
+
+.feedback__title {
+  font-size: 30px;
+  line-height: 36px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.popup__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-image: url("../img/white__cross.svg");
+  background-position: center;
 }
